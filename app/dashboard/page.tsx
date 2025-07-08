@@ -1,16 +1,21 @@
+"use client"
 import { Search } from 'lucide-react'
-import React from 'react'
+import React, { useState } from 'react'
 import SearchSection from './_components/SearchSection'
 import TemplateListSection from './_components/TemplateListSection'
 
 function Dashboard() {
+  const [userSearchInput, setUserSearchInput] = useState<string>(''); 
+
   return (
     <div>
-      {/*Search Section*/}
-      <SearchSection />
-      {/*Template List Section*/}
-      <TemplateListSection/>
+      <SearchSection
+        onSearchInput={setUserSearchInput}
+        searchValue={userSearchInput} 
+      />
+      <TemplateListSection userSearchInput={userSearchInput} />
     </div>
-  )
+  );
 }
-export default Dashboard
+
+export default Dashboard;
