@@ -47,5 +47,5 @@ export default function SideNav() {
           </div>  
         ))}
       </div>
-    </div>)
+    </div>) 
 }
