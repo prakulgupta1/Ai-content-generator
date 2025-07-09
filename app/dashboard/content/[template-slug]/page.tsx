@@ -20,7 +20,7 @@ function CreateNewContent(props: PROPS) {
   );
 
   const GenerateAIContent = (formData: any) => {
-    // Your logic here
+
   };
 
   return (
@@ -36,6 +36,7 @@ function CreateNewContent(props: PROPS) {
         />
         {/* Output Section */}
         <div className="col-span-2">
+            <OutputSection/>
         </div>
       </div>
     </div>
