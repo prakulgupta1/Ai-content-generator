@@ -25,11 +25,11 @@ function OutputSection({ aiOutput }: Props) {
     }
   };
 
-  // 👇 Update editor content when aiOutput changes
+
   useEffect(() => {
     const editorInstance = editorRef.current?.getInstance();
     if (editorInstance && aiOutput) {
-      editorInstance.setMarkdown(aiOutput); // or .setHTML() if you're using HTML
+      editorInstance.setMarkdown(aiOutput);
     }
   }, [aiOutput]);
 
