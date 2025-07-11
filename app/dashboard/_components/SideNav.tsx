@@ -33,7 +33,7 @@ export default function SideNav() {
     console.log(path)
   },[])
   return(
-    <div className='h-screen p-5 shadow-sm border'>
+    <div className='h-screen p-5 shadow-sm border bg-white'>
       <div className='flex justify-center' >
         <Image src = {'/logo.svg'} alt = 'logo' width = {120} height = {100}/> 
       </div>

@@ -1,46 +1,75 @@
-"use client"
-import React from 'react'
-import FormSection from '../_components/FormSection'
-import OutputSection from '../_components/OutputSection'
-import templates from '@/app/(data)/templates'
-import { TEMPLATE } from '../../_components/TemplateListSection'
-import { Button } from '@/components/ui/button'
-import { ArrowLeft } from 'lucide-react'
-import Link from 'next/link'
+"use client";
+import React, { useEffect, useState } from 'react';
+import FormSection from '../_components/FormSection';
+import OutputSection from '../_components/OutputSection';
+import templates from '@/app/(data)/templates';
+import { TEMPLATE } from '../../_components/TemplateListSection';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
+import { chatSession } from '@/utils/AiModel';
 
 interface PROPS {
-  params: {
-    'template-slug': string
-  }
+  params: Promise<{
+    'template-slug': string;
+  }>;
 }
 
 function CreateNewContent(props: PROPS) {
-  const selectedTemplate: TEMPLATE | undefined = templates?.find(
-    (item) => item.slug === props.params['template-slug']
-  );
+  const [templateSlug, setTemplateSlug] = useState<string | null>(null);
+  const [selectedTemplate, setSelectedTemplate] = useState<TEMPLATE | undefined>(undefined);
+  const [loading, setLoading] = useState(false);
+  const [aiOutput, setAiOutput] = useState<string>('');
 
-  const GenerateAIContent = (formData: any) => {
+  useEffect(() => {
+    (async () => {
+      const resolvedParams = await props.params;
+      setTemplateSlug(resolvedParams['template-slug']);
+    })();
+  }, [props.params]);
 
+  useEffect(() => {
+    if (templateSlug) {
+      const template = templates?.find((item) => item.slug === templateSlug);
+      setSelectedTemplate(template);
+    }
+  }, [templateSlug]);
+
+  const GenerateAIContent = async (formData: any) => {
+    setLoading(true);
+    try {
+      const selectedPrompt = selectedTemplate?.aiPrompt || '';
+      const finalPrompt = JSON.stringify(formData) + ', ' + selectedPrompt;
+      const result = await chatSession.sendMessage(finalPrompt);
+      const output = await result.response.text();
+      setAiOutput(output);
+    } catch (error) {
+      console.error('Error generating AI content:', error);
+    }
+    setLoading(false);
   };
+
+  if (!selectedTemplate) return <div className="p-10">Loading template...</div>;
 
   return (
     <div className='p-10'>
-        <Link href = {"/dashboard"}>
-            <Button><ArrowLeft/>Back</Button>
-        </Link>
+      <Link href={"/dashboard"}>
+        <Button><ArrowLeft />Back</Button>
+      </Link>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 py-5">
-        {/* Form Section */}
         <FormSection
           selectedTemplate={selectedTemplate}
-          userFormInput={(v: any) => console.log(v)}
+          userFormInput={GenerateAIContent}
+          loading={loading}
         />
-        {/* Output Section */}
         <div className="col-span-2">
-            <OutputSection/>
+          <OutputSection aiOutput={aiOutput} />
         </div>
       </div>
     </div>
   );
 }
 
-export default CreateNewContent
+export default CreateNewContent;
+
+
