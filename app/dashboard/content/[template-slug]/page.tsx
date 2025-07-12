@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import FormSection from '../_components/FormSection';
 import OutputSection from '../_components/OutputSection';
 import templates from '@/app/(data)/templates';
@@ -8,6 +8,15 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 import { chatSession } from '@/utils/AiModel';
+import { db } from '@/utils/db';
+import { AIOutput } from '@/utils/schema';
+import { useUser } from '@clerk/nextjs';
+import moment from "moment";
+import { TotalUsageContext } from '@/app/(context)/TotalUsageContext';
+import { UpdateCreditUsageContext } from '@/app/(context)/UpdateCreditUsageContext';
+import { useRouter } from 'next/navigation';
+import Dashboard from '../../page';
+
 
 interface PROPS {
   params: Promise<{
@@ -20,6 +29,11 @@ function CreateNewContent(props: PROPS) {
   const [selectedTemplate, setSelectedTemplate] = useState<TEMPLATE | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [aiOutput, setAiOutput] = useState<string>('');
+  const {user}=useUser();
+  const [totalCredits, setTotalCredits] = useContext(TotalUsageContext);
+  const router=useRouter();
+  const { updateCreditUsage ,setUpdateCreditUsage}=useContext(UpdateCreditUsageContext);
+
 
   useEffect(() => {
     (async () => {
@@ -36,18 +50,39 @@ function CreateNewContent(props: PROPS) {
   }, [templateSlug]);
 
   const GenerateAIContent = async (formData: any) => {
+    if(totalCredits>=10000){
+      console.log("Please Upgrade");
+      router.push('/dashboard/billing')
+      return ;
+    }
     setLoading(true);
+
     try {
       const selectedPrompt = selectedTemplate?.aiPrompt || '';
       const finalPrompt = JSON.stringify(formData) + ', ' + selectedPrompt;
       const result = await chatSession.sendMessage(finalPrompt);
       const output = await result.response.text();
       setAiOutput(output);
+      await SaveInDb(JSON.stringify(formData),selectedTemplate?.slug,output)
     } catch (error) {
       console.error('Error generating AI content:', error);
     }
     setLoading(false);
+
+    setUpdateCreditUsage(Date.now());
   };
+
+  const SaveInDb=async(formData:any,slug:any,aiResp:string)=>{
+    const result=await db.insert(AIOutput).values({
+      formData:formData,
+      templateSlug:slug ?? "",
+      aiResponse:aiResp ?? "",
+      createdBy:user?.primaryEmailAddress?.emailAddress ?? "",
+      createdAt:moment().format('DD/MM/yyyy')
+      
+    });
+    console.log(result);
+  }
 
   if (!selectedTemplate) return <div className="p-10">Loading template...</div>;
 
