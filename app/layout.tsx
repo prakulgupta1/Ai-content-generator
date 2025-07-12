@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono,Outfit} from "next/font/google";
+import { Geist, Geist_Mono, Outfit } from "next/font/google";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
+import ClientLayoutWrapper from "./ClientLayoutWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -17,7 +17,7 @@ const outline = Outfit({
   variable: "--font-outline",
   subsets: ["latin"],
   weight: "400",
-}); 
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,17 +26,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body
-        className={`${outline.className} ${outline.variable} antialiased`}>
-          {children}
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body
+        className={`${outline.className} ${outline.variable} antialiased`}
+      >
+        <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
+      </body>
+    </html>
   );
 }

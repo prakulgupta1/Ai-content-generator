@@ -2,9 +2,9 @@ import { integer, pgTable, serial, text, timestamp, varchar} from 'drizzle-orm/p
 
 export const AIOutput = pgTable('aiOutput', {
   id: serial('id').primaryKey(),
-  formData:varchar('formData').notNull(),
+  formData:varchar('formData', { length: 1000 }).notNull(),
   aiResponse: text('aiResponse'),
-  templateSlug:varchar('templateSlug').notNull(),
-  createdBy: varchar('createdBy').notNull(),
-  createdAt:varchar('createdAt')
+  templateSlug:varchar('templateSlug', { length: 255 }).notNull(),
+  createdBy: varchar('createdBy', { length: 255 }).notNull(),
+  createdAt:varchar('createdAt', { length: 255 })
 });
