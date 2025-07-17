@@ -32,7 +32,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${outline.className} ${outline.variable} antialiased`}>
+      <body 
+      className={`${outline.className} ${outline.variable} antialiased`}>
         <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
       </body>
     </html>

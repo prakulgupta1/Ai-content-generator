@@ -55,5 +55,4 @@ function UsageTrack() {
     </div>
   );
 }
-
 export default UsageTrack;
