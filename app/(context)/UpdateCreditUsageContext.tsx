@@ -2,12 +2,12 @@
 
 import { createContext } from "react";
 
-interface UpdateCreditContextType {
-  updateCreditUsage: number;
-  setUpdateCreditUsage: (value: number) => void;
-}
+export type UpdateCreditUsageContextType = {
+  updateCreditUsage: boolean;
+  setUpdateCreditUsage: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-export const UpdateCreditUsageContext = createContext<UpdateCreditContextType>({
-  updateCreditUsage: 0,
+export const UpdateCreditUsageContext = createContext<UpdateCreditUsageContextType>({
+  updateCreditUsage: false,
   setUpdateCreditUsage: () => {},
 });
