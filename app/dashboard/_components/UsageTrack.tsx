@@ -1,3 +1,4 @@
+// UsageTrack.tsx
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -6,33 +7,43 @@ import { AIOutput } from "@/utils/schema";
 import { eq } from "drizzle-orm";
 import { useUser } from "@clerk/nextjs";
 import React, { useEffect, useState, useContext } from "react";
+
+
 import { TotalUsageContext } from "@/app/(context)/TotalUsageContext";
 import { UpdateCreditUsageContext } from "@/app/(context)/UpdateCreditUsageContext";
 
 function UsageTrack() {
   const { user } = useUser();
-  const [totalCredits, setTotalCredits] = useContext(TotalUsageContext);
+
+
+  const { totalUsage, setTotalUsage } = useContext(TotalUsageContext);
   const { updateCreditUsage, setUpdateCreditUsage } = useContext(UpdateCreditUsageContext);
 
-  // Fetch when updateCreditUsage changes or user changes
   useEffect(() => {
-    if (!user) return;
+    if (!user) return; 
 
     const GetData = async () => {
+
+      const userEmail = user.primaryEmailAddress?.emailAddress;
+      if (!userEmail) {
+        console.warn("User email not available, skipping data fetch.");
+        return;
+      }
+
       const rows = await db
         .select()
         .from(AIOutput)
-        .where(eq(AIOutput.createdBy, user.primaryEmailAddress?.emailAddress ?? ""));
+        .where(eq(AIOutput.createdBy, userEmail));
 
       const total = rows.reduce((sum, row) => sum + (row.aiResponse?.length ?? 0), 0);
-      setTotalCredits(total);
+      setTotalUsage(total); // Using setTotalUsage
     };
 
     GetData();
-  }, [updateCreditUsage, user]);
+  }, [updateCreditUsage, user, setTotalUsage]); 
 
   const progress = {
-    width: `${(totalCredits / 10_000) * 100}%`,
+    width: `${(totalUsage / 10000) * 100}%`, 
   };
 
   return (
@@ -45,7 +56,7 @@ function UsageTrack() {
         </div>
 
         <h2 className="text-sm my-2">
-          {totalCredits.toLocaleString()}/10,000 Credits used
+          {totalUsage.toLocaleString()}/10,000 Credits used
         </h2>
       </div>
 

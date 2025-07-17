@@ -1,8 +1,9 @@
+// app/ClientLayoutWrapper.tsx
 "use client";
-
 import { TotalUsageContext } from "./(context)/TotalUsageContext";
 import { useState } from "react";
 import { ClerkProvider } from "@clerk/nextjs";
+import React from "react"; // Explicitly import React
 
 export default function ClientLayoutWrapper({
   children,
