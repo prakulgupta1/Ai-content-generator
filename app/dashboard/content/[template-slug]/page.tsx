@@ -1,9 +1,10 @@
+// app/dashboard/content/[template-slug]/page.tsx (assuming this is the path)
 "use client";
 import React, { useEffect, useState, useContext } from 'react';
 import FormSection from '../_components/FormSection';
 import OutputSection from '../_components/OutputSection';
 import templates from '@/app/(data)/templates';
-import { TEMPLATE } from '../../_components/TemplateListSection';
+import { TEMPLATE } from '../../_components/TemplateListSection'; // Assuming this path is correct
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
@@ -15,32 +16,32 @@ import moment from "moment";
 import { TotalUsageContext } from '@/app/(context)/TotalUsageContext';
 import { UpdateCreditUsageContext } from '@/app/(context)/UpdateCreditUsageContext';
 import { useRouter } from 'next/navigation';
-import Dashboard from '../../page';
 
 
 interface PROPS {
-  params: Promise<{
+  params: { 
     'template-slug': string;
-  }>;
+  };
 }
 
 function CreateNewContent(props: PROPS) {
-  const [templateSlug, setTemplateSlug] = useState<string | null>(null);
+
+  const initialTemplateSlug = props.params['template-slug'];
+
+  const [templateSlug, setTemplateSlug] = useState<string | null>(initialTemplateSlug);
   const [selectedTemplate, setSelectedTemplate] = useState<TEMPLATE | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [aiOutput, setAiOutput] = useState<string>('');
   const {user}=useUser();
-  const [totalCredits, setTotalCredits] = useContext(TotalUsageContext);
+  const { totalUsage, setTotalUsage } = useContext(TotalUsageContext);
   const router=useRouter();
   const { updateCreditUsage ,setUpdateCreditUsage}=useContext(UpdateCreditUsageContext);
 
 
   useEffect(() => {
-    (async () => {
-      const resolvedParams = await props.params;
-      setTemplateSlug(resolvedParams['template-slug']);
-    })();
-  }, [props.params]);
+
+    setTemplateSlug(props.params['template-slug']);
+  }, [props.params]); 
 
   useEffect(() => {
     if (templateSlug) {
@@ -50,7 +51,7 @@ function CreateNewContent(props: PROPS) {
   }, [templateSlug]);
 
   const GenerateAIContent = async (formData: any) => {
-    if(totalCredits>=10000){
+    if(totalUsage >= 10000){ 
       console.log("Please Upgrade");
       router.push('/dashboard/billing')
       return ;
@@ -78,8 +79,7 @@ function CreateNewContent(props: PROPS) {
       templateSlug:slug ?? "",
       aiResponse:aiResp ?? "",
       createdBy:user?.primaryEmailAddress?.emailAddress ?? "",
-      createdAt:moment().format('DD/MM/yyyy')
-      
+      createdAt:moment().format('DD/MM/yyyy') 
     });
     console.log(result);
   }
@@ -106,5 +106,3 @@ function CreateNewContent(props: PROPS) {
 }
 
 export default CreateNewContent;
-
-
