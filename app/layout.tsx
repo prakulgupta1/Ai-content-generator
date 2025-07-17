@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Outfit } from "next/font/google";
 import "./globals.css";
 import ClientLayoutWrapper from "./ClientLayoutWrapper";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,9 +32,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={`${outline.className} ${outline.variable} antialiased`}
-      >
+      <body className={`${outline.className} ${outline.variable} antialiased`}>
         <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
       </body>
     </html>
