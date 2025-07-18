@@ -1,7 +1,13 @@
-// app/(context)/TotalUsageContext.ts
+"use client";
+
 import { createContext } from "react";
 
-export const TotalUsageContext = createContext<[number, React.Dispatch<React.SetStateAction<number>>]>([
-  0,
-  () => {},
-]);
+interface TotalUsageContextType {
+  totalUsage: number;
+  setTotalUsage: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export const TotalUsageContext = createContext<TotalUsageContextType>({
+  totalUsage: 0,
+  setTotalUsage: () => {},
+});

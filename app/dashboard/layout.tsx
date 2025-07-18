@@ -1,4 +1,3 @@
-// app/dashboard/layout.tsx
 "use client";
 
 import { useState } from 'react';
@@ -17,7 +16,7 @@ export default function Layout({
 
   return (
     <UpdateCreditUsageContext.Provider value={{ updateCreditUsage, setUpdateCreditUsage }}>
-      <TotalUsageContext.Provider value={[totalCredits, setTotalCredits]}>
+      <TotalUsageContext.Provider value={{ totalUsage: totalCredits, setTotalUsage: setTotalCredits }}>
         <div className='bg-slate-100 h-screen'>
           <div className="md:w-64 hidden md:block fixed h-full">
             <SideNav />
