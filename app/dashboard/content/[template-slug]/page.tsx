@@ -1,5 +1,4 @@
-// app/dashboard/content/[template-slug]/page.tsx
-"use client"; // This component runs on the client
+"use client";
 
 import React, { useEffect, useState, useContext } from 'react';
 import FormSection from '../_components/FormSection';
@@ -19,34 +18,27 @@ import { UpdateCreditUsageContext } from '@/app/(context)/UpdateCreditUsageConte
 import { useRouter } from 'next/navigation';
 
 interface PROPS {
-  params: Promise<{ // Keep params as Promise to match what Next.js sends
+  params: Promise<{
     'template-slug': string;
   }>;
 }
 
 function CreateNewContent(props: PROPS) {
-  // Use React.use() to unwrap the params Promise
-  // This will suspend the component until the promise resolves.
-  const resolvedParams = React.use(props.params);
-  const initialTemplateSlug = resolvedParams['template-slug'];
-
-  const [templateSlug, setTemplateSlug] = useState<string | null>(initialTemplateSlug);
+  const [templateSlug, setTemplateSlug] = useState<string | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState<TEMPLATE | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [aiOutput, setAiOutput] = useState<string>('');
-  const {user}=useUser();
+  const { user } = useUser();
   const { totalUsage, setTotalUsage } = useContext(TotalUsageContext);
-  const router=useRouter();
-  const { updateCreditUsage ,setUpdateCreditUsage}=useContext(UpdateCreditUsageContext);
-
+  const { updateCreditUsage, setUpdateCreditUsage } = useContext(UpdateCreditUsageContext);
+  const router = useRouter();
 
   useEffect(() => {
-    // This useEffect might become redundant if initialTemplateSlug always sets it correctly
-    // but keep it if there's a possibility params could change dynamically later.
-    // However, if params from a page are static for a given route, this might be simplified.
-    setTemplateSlug(resolvedParams['template-slug']);
-  }, [resolvedParams]); // Depend on the resolvedParams object
-
+    (async () => {
+      const resolvedParams = await props.params;
+      setTemplateSlug(resolvedParams['template-slug']);
+    })();
+  }, [props.params]);
 
   useEffect(() => {
     if (templateSlug) {
@@ -56,11 +48,12 @@ function CreateNewContent(props: PROPS) {
   }, [templateSlug]);
 
   const GenerateAIContent = async (formData: any) => {
-    if(totalUsage >= 10000){
+    if (totalUsage >= 10000) {
       console.log("Please Upgrade");
-      router.push('/dashboard/billing')
-      return ;
+      router.push('/dashboard/billing');
+      return;
     }
+
     setLoading(true);
 
     try {
@@ -69,30 +62,31 @@ function CreateNewContent(props: PROPS) {
       const result = await chatSession.sendMessage(finalPrompt);
       const output = await result.response.text();
       setAiOutput(output);
-      await SaveInDb(JSON.stringify(formData),selectedTemplate?.slug,output)
+      await SaveInDb(JSON.stringify(formData), selectedTemplate?.slug, output);
     } catch (error) {
-      console.error('Error generating AI content:', error);
+      console.error('Error generating Cognitext content:', error);
     }
-    setLoading(false);
 
+    setLoading(false);
     setUpdateCreditUsage(Date.now());
   };
 
-  const SaveInDb=async(formData:any,slug:any,aiResp:string)=>{
-    const result=await db.insert(AIOutput).values({
-      formData:formData,
-      templateSlug:slug ?? "",
-      aiResponse:aiResp ?? "",
-      createdBy:user?.primaryEmailAddress?.emailAddress ?? "",
-      createdAt:moment().format('DD/MM/yyyy')
+  const SaveInDb = async (formData: any, slug: any, aiResp: string) => {
+    const result = await db.insert(AIOutput).values({
+      formData,
+      templateSlug: slug ?? "",
+      aiResponse: aiResp ?? "",
+      createdBy: user?.primaryEmailAddress?.emailAddress ?? "",
+      createdAt: moment().format('DD/MM/yyyy'),
     });
+
     console.log(result);
-  }
+  };
 
   if (!selectedTemplate) return <div className="p-10">Loading template...</div>;
 
   return (
-    <div className='p-10'>
+    <div className="p-10">
       <Link href={"/dashboard"}>
         <Button><ArrowLeft />Back</Button>
       </Link>

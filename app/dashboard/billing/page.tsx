@@ -9,7 +9,7 @@ const plans = [
     price: "0 Rs",
     features: [
       "10,000 Words/Month",
-      "50+ Content Templates",
+      "15+ Content Templates",
       "Unlimited Download & Copy",
       "1 Month of History",
     ],
@@ -21,12 +21,24 @@ const plans = [
     amount: 200,
     features: [
       "1,000,000 Words/Month",
-      "50+ Template Access",
+      "15+ Template Access",
       "Unlimited Download & Copy",
       "1 Year of History",
     ],
     active: false,
   },
+  {
+    title: "Yearly",
+    price: "2000 Rs",
+    amount: 2000,
+    features: [
+        "Unlimited Words/Month",
+        "15+ Template Access",
+        "Unlimited Download & Copy",
+        "Lifetime History",
+    ],
+    active: false,
+},
 ];
 
 const loadRazorpayScript = (): Promise<boolean> => {
@@ -65,8 +77,8 @@ export default function BillingPage() {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID|| "rzp_test_E7NAqMp9gKolg1",
         amount: data.amount,
         currency: "INR",
-        name: "AI Content Generator",
-        description: "Monthly Plan Subscription",
+        name: "Cognitext AI",
+        description: "Subscription",
         order_id: data.id,
         handler: function (response: any) {
           alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
@@ -76,7 +88,7 @@ export default function BillingPage() {
           email: "you@example.com",
         },
         theme: {
-          color: "#6366f1",
+          color: "#007BFF",
         },
       };
 
@@ -90,8 +102,8 @@ export default function BillingPage() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">Upgrade With Monthly Plan</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <h1 className="text-2xl font-bold mb-6">Upgrade Your Plan</h1>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {plans.map((plan) => (
           <div
             key={plan.title}
@@ -111,12 +123,12 @@ export default function BillingPage() {
               className={`${
                 plan.active
                   ? "bg-gray-200 text-gray-600 cursor-not-allowed"
-                  : "bg-indigo-600 text-white hover:bg-indigo-700"
+                  : "bg-primary text-white hover:bg-primary/90"
               } px-6 py-2 rounded-full font-medium transition`}
               disabled={plan.active}
               onClick={() => !plan.active && handlePayment(plan.amount!)}
             >
-              {plan.active ? "Currently Active Plan" : "Get Started"}
+              {plan.active ? "Current Plan" : "Get Started"}
             </button>
           </div>
         ))}

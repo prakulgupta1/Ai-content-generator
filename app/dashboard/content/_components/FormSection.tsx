@@ -47,7 +47,7 @@ function FormSection({ selectedTemplate, userFormInput, loading }: PROPS) {
         ))}
         <Button type="submit" className='w-full py-6' disabled={loading}>
           {loading && <Loader2Icon className='animate-spin' />}
-          Generate Content
+          Generate with Cognitext
         </Button>
       </form>
     </div>
