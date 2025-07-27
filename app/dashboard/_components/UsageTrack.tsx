@@ -6,18 +6,27 @@ import { db } from "@/utils/db";
 import { AIOutput } from "@/utils/schema";
 import { eq } from "drizzle-orm";
 import { useUser } from "@clerk/nextjs";
+<<<<<<< HEAD
 import React, { useEffect, useState, useContext } from "react";
 
 
+=======
+import React, { useEffect, useContext } from "react";
+>>>>>>> a057209f753173cf410c2aca9f171723b5a2a5e4
 import { TotalUsageContext } from "@/app/(context)/TotalUsageContext";
 import { UpdateCreditUsageContext } from "@/app/(context)/UpdateCreditUsageContext";
 
 function UsageTrack() {
   const { user } = useUser();
+<<<<<<< HEAD
 
 
   const { totalUsage, setTotalUsage } = useContext(TotalUsageContext);
   const { updateCreditUsage, setUpdateCreditUsage } = useContext(UpdateCreditUsageContext);
+=======
+  const { totalUsage, setTotalUsage } = useContext(TotalUsageContext);
+  const { updateCreditUsage } = useContext(UpdateCreditUsageContext);
+>>>>>>> a057209f753173cf410c2aca9f171723b5a2a5e4
 
   useEffect(() => {
     if (!user) return; 
@@ -36,14 +45,22 @@ function UsageTrack() {
         .where(eq(AIOutput.createdBy, userEmail));
 
       const total = rows.reduce((sum, row) => sum + (row.aiResponse?.length ?? 0), 0);
+<<<<<<< HEAD
       setTotalUsage(total); // Using setTotalUsage
+=======
+      setTotalUsage(total);
+>>>>>>> a057209f753173cf410c2aca9f171723b5a2a5e4
     };
 
     GetData();
   }, [updateCreditUsage, user, setTotalUsage]); 
 
   const progress = {
+<<<<<<< HEAD
     width: `${(totalUsage / 10000) * 100}%`, 
+=======
+    width: `${(totalUsage / 10000) * 100}%`,
+>>>>>>> a057209f753173cf410c2aca9f171723b5a2a5e4
   };
 
   return (
