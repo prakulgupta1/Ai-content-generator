@@ -53,17 +53,17 @@ const templates = [
     ],
   },
   {
-    name: 'Medical Advice Generator',
-    desc: 'Provides general medical guidance based on symptoms',
-    category: 'Healthcare Tool',
-    slug: 'medical-advice',
-    icon: 'https://cdn-icons-png.flaticon.com/128/10489/10489852.png',
-    aiPrompt: 'Give general health advice based on the symptoms. Mention this is not a substitute for professional care.',
+    name: 'Blog Title Generator',
+    desc: 'Generate catchy blog titles based on your topic or keywords',
+    category: 'Blog Tool',
+    slug: 'blog-title-generator',
+    icon: 'https://cdn-icons-png.flaticon.com/128/3135/3135715.png',
+    aiPrompt: 'Generate 10 catchy blog titles based on the provided topic or keywords',
     form: [
       {
-        label: 'Describe your symptoms',
-        field: 'textarea',
-        name: 'symptoms',
+        label: 'Enter your blog topic or keywords',
+        field: 'input',
+        name: 'topic',
         required: true,
       },
     ],
@@ -133,25 +133,6 @@ const templates = [
     ],
   },
   {
-<<<<<<< HEAD
-    name: 'Cold Email Generator',
-    desc: 'Generate professional cold emails for outreach or sales',
-    category: 'Email Tool',
-    slug: 'cold-email-generator',
-    icon: 'https://cdn-icons-png.flaticon.com/128/5610/5610944.png',
-    aiPrompt: 'Write a cold email for outreach based on the given recipient details and purpose',
-    form: [
-      {
-        label: 'Who is your target audience?',
-        field: 'input',
-        name: 'audience',
-        required: true,
-      },
-      {
-        label: 'Purpose of the email',
-        field: 'textarea',
-        name: 'purpose',
-=======
     name: 'Facebook Ad Copy Generator',
     desc: 'Create high-converting Facebook ad copy based on your product or offer',
     category: 'Marketing Tool',
@@ -163,25 +144,11 @@ const templates = [
         label: 'Describe your product or offer',
         field: 'textarea',
         name: 'product',
->>>>>>> a057209f753173cf410c2aca9f171723b5a2a5e4
         required: true,
       },
     ],
   },
   {
-<<<<<<< HEAD
-    name: 'LinkedIn Bio Generator',
-    desc: 'Create a professional LinkedIn bio to showcase your profile',
-    category: 'Social Media Tool',
-    slug: 'linkedin-bio',
-    icon: 'https://cdn-icons-png.flaticon.com/128/3536/3536505.png',
-    aiPrompt: 'Generate a professional LinkedIn bio based on job title and experience',
-    form: [
-      {
-        label: 'Enter your job title and experience',
-        field: 'textarea',
-        name: 'bioInput',
-=======
     name: 'LinkedIn Post Generator',
     desc: 'Craft professional LinkedIn posts to increase engagement and reach',
     category: 'Social Media Tool',
@@ -215,25 +182,12 @@ const templates = [
         label: 'Who is the recipient (job title or company)?',
         field: 'input',
         name: 'recipient',
->>>>>>> a057209f753173cf410c2aca9f171723b5a2a5e4
         required: true,
       },
     ],
   },
   {
     name: 'FAQ Generator',
-<<<<<<< HEAD
-    desc: 'Generate frequently asked questions for your product or service',
-    category: 'Website Tool',
-    slug: 'faq-generator',
-    icon: 'https://cdn-icons-png.flaticon.com/128/5460/5460377.png',
-    aiPrompt: 'Generate 5 common FAQs based on the provided product or service',
-    form: [
-      {
-        label: 'Describe your product or service',
-        field: 'textarea',
-        name: 'productService',
-=======
     desc: 'Automatically create FAQs for websites or product pages',
     category: 'Website Tool',
     slug: 'faq-generator',
@@ -244,57 +198,11 @@ const templates = [
         label: 'Enter topic or product name',
         field: 'input',
         name: 'topic',
->>>>>>> a057209f753173cf410c2aca9f171723b5a2a5e4
         required: true,
       },
     ],
   },
   {
-<<<<<<< HEAD
-    name: 'Ad Copy Generator',
-    desc: 'Create persuasive ad copy for your campaigns',
-    category: 'Marketing Tool',
-    slug: 'ad-copy-generator',
-    icon: 'https://cdn-icons-png.flaticon.com/128/2989/2989988.png',
-    aiPrompt: 'Write 3 variations of ad copy for the given product or service',
-    form: [
-      {
-        label: 'Enter product name and target audience',
-        field: 'textarea',
-        name: 'adDetails',
-        required: true,
-      },
-    ],
-  },
-  {
-    name: 'Slogan Generator',
-    desc: 'Create catchy slogans for your brand or campaign',
-    category: 'Branding Tool',
-    slug: 'slogan-generator',
-    icon: 'https://cdn-icons-png.flaticon.com/128/10405/10405802.png',
-    aiPrompt: 'Generate 5 catchy slogans based on the brand or product',
-    form: [
-      {
-        label: 'Enter brand name and purpose',
-        field: 'input',
-        name: 'brandPurpose',
-        required: true,
-      },
-    ],
-  },
-  {
-    name: 'Resume Summary Generator',
-    desc: 'Write a compelling resume summary for job applications',
-    category: 'Career Tool',
-    slug: 'resume-summary',
-    icon: 'https://cdn-icons-png.flaticon.com/128/942/942748.png',
-    aiPrompt: 'Generate a professional resume summary based on experience and skills',
-    form: [
-      {
-        label: 'Enter your work experience and skills',
-        field: 'textarea',
-        name: 'resumeDetails',
-=======
     name: 'Call-to-Action Generator',
     desc: 'Generate strong CTAs for emails, landing pages, and ads',
     category: 'Marketing Tool',
@@ -306,25 +214,11 @@ const templates = [
         label: 'Describe your product or goal',
         field: 'textarea',
         name: 'goal',
->>>>>>> a057209f753173cf410c2aca9f171723b5a2a5e4
         required: true,
       },
     ],
   },
   {
-<<<<<<< HEAD
-    name: 'YouTube Script Generator',
-    desc: 'Generate a short video script based on a topic',
-    category: 'Youtube Tool',
-    slug: 'youtube-script',
-    icon: 'https://cdn-icons-png.flaticon.com/128/1384/1384060.png',
-    aiPrompt: 'Generate a 2-minute YouTube script on the given topic',
-    form: [
-      {
-        label: 'Enter video topic',
-        field: 'input',
-        name: 'videoTopic',
-=======
     name: 'YouTube Video Description Generator',
     desc: 'Write optimized YouTube descriptions that boost video SEO',
     category: 'Youtube Tool',
@@ -357,25 +251,11 @@ const templates = [
         label: 'Enter pin topic or product',
         field: 'input',
         name: 'topic',
->>>>>>> a057209f753173cf410c2aca9f171723b5a2a5e4
         required: true,
       },
     ],
   },
   {
-<<<<<<< HEAD
-    name: 'Newsletter Generator',
-    desc: 'Create engaging newsletter content for your subscribers',
-    category: 'Email Tool',
-    slug: 'newsletter-generator',
-    icon: 'https://cdn-icons-png.flaticon.com/128/5610/5610944.png',
-    aiPrompt: 'Generate a newsletter introduction and 3 content sections based on the theme',
-    form: [
-      {
-        label: 'Enter newsletter theme or topic',
-        field: 'input',
-        name: 'newsletterTopic',
-=======
     name: 'Value Proposition Generator',
     desc: 'Define clear and concise value propositions for your business or product',
     category: 'Business Tool',
@@ -387,7 +267,6 @@ const templates = [
         label: 'Describe your product or business',
         field: 'textarea',
         name: 'business',
->>>>>>> a057209f753173cf410c2aca9f171723b5a2a5e4
         required: true,
       },
     ],
